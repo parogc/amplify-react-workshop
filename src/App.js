@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { queries } from './queries';
+import uuid from 'uuid';
 
 import Amplify, { API } from 'aws-amplify';
 import { withAuthenticator} from 'aws-amplify-react'; 
@@ -89,12 +89,18 @@ class App extends Component {
     super(props);
     this.state = { notes:[] }
   }
-  
-  deleteNote = async (note) => {
-     }
-  
-  addNote = async (note) => {
-  }
+    post = async (note) => {
+
+        const response = await API.post('note', '/note', {
+            body: {
+                id: new Date().getDate(),
+                name: note.note
+            }
+        });
+
+        alert(JSON.stringify(response, null, 2));
+    };
+
   
   async componentDidMount(){
    }
@@ -104,7 +110,7 @@ class App extends Component {
       <div className="row">
         <div className="col m-3">
           <Header/>
-          <AddNote addNote={ this.addNote }/>
+          <AddNote addNote={ this.post }/>
           <NotesList notes={ this.state.notes } deleteNote={ this.deleteNote }/>
         </div> 
       </div> 
