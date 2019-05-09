@@ -5,7 +5,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { queries } from './queries';
 
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import Amplify, { API } from 'aws-amplify';
 import { withAuthenticator} from 'aws-amplify-react'; 
 
 import aws_exports from './aws-exports'; // specify the location of aws-exports.js file on your project
@@ -27,22 +27,22 @@ class Header extends Component {
 }
 
 class AddNote extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = { note: '' }
   }
-  
+
   handleChange = (event) => {
     this.setState( { note: event.target.value } );
   }
-  
-  handleClick = (event) => {
-    event.preventDefault();    
 
-    // let the app manage the persistence & state 
-    this.props.addNote( this.state ); 
-    
+  handleClick = (event) => {
+    event.preventDefault();
+
+    // let the app manage the persistence & state
+    this.props.addNote( this.state );
+
     // reset the input text box value
     this.setState( { note: '' } );
   }
@@ -91,20 +91,13 @@ class App extends Component {
   }
   
   deleteNote = async (note) => {
-    await API.graphql(graphqlOperation(queries.deleteNote, note));
-    this.setState( { notes: this.state.notes.filter( (value, index, arr) => { return value.id !== note.id; }) } );
-  }
+     }
   
   addNote = async (note) => {
-    var result = await API.graphql(graphqlOperation(queries.createNote, note));
-    this.state.notes.push(result.data.createNote)
-    this.setState( { notes: this.state.notes } )
   }
   
   async componentDidMount(){
-    var result = await API.graphql(graphqlOperation(queries.listNotes));
-    this.setState( { notes: result.data.listNotes.items } )
-  }  
+   }
 
   render() {
     return (
